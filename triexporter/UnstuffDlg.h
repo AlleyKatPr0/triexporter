@@ -1,4 +1,4 @@
-// aboutdlg.h : interface of the CAboutDlg class
+// UnstuffDlg.h : interface of the CUnstuffDlg class
 //
 /////////////////////////////////////////////////////////////////////////////
 #pragma once
@@ -10,8 +10,8 @@ public:
 	BEGIN_MSG_MAP(CUnstuffDlg)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
 	END_MSG_MAP()
-	CTreeItem* ti;
-	SharedCache* sc;
+	CTreeItem* ti = nullptr;
+	SharedCache* sc = nullptr;
 	CStatic m_Text;
 	CProgressBarCtrl m_Progress;
 	CString path;
@@ -28,17 +28,17 @@ public:
 		m_Progress.Attach(GetDlgItem(IDC_UNSTUFFPROG));
 		DWORD dwThreadId;
 		HANDLE hThread;
-		ti = (CTreeItem*)((DWORD*)lParam)[0];
-		sc = (SharedCache*)((DWORD*)lParam)[1];
-		path = *(CString*)((DWORD*)lParam)[2];
-		hThread = CreateThread(NULL, 0, Show, (LPVOID)this, 0, &dwThreadId);
+		ti = reinterpret_cast<CTreeItem*>(reinterpret_cast<DWORD*>(lParam)[0]);
+		sc = reinterpret_cast<SharedCache*>(reinterpret_cast<DWORD*>(lParam)[1]);
+		path = *reinterpret_cast<CString*>(reinterpret_cast<DWORD*>(lParam)[2]);
+		hThread = CreateThread(nullptr, 0, Show, reinterpret_cast<LPVOID>(this), 0, &dwThreadId);
 		return TRUE;
 	}
-	void TreeWalker(CTreeItem &ti, vector<int> *ret)
+	void TreeWalker(CTreeItem &ti, std::vector<int> *ret)
 	{
 		do
 		{
-			int out = ti.GetData()-1;
+			const int out = ti.GetData()-1;
 			if(out < 0)
 				TreeWalker(ti.GetChild(), ret);
 			else
@@ -48,12 +48,12 @@ public:
 	}
 	static DWORD WINAPI Show(LPVOID lpParam)
 	{
-		CUnstuffDlg* me = (CUnstuffDlg*)lpParam;
-		vector<int> ret;
+		auto* me = reinterpret_cast<CUnstuffDlg*>(lpParam);
+		std::vector<int> ret;
 		me->TreeWalker(me->ti->GetChild(), &ret);
-		dword size = ret.size();
-		me->m_Progress.SetRange(0,size);
-		for(dword i=0; i < size; i++)
+		const dword size = static_cast<dword>(ret.size());
+		me->m_Progress.SetRange(0, size);
+		for(dword i = 0; i < size; ++i)
 		{
 			CacheEntry *sce = &me->sc->index[ret[i]];
 			me->m_Text.SetWindowText(sce->filename.c_str());

@@ -5,11 +5,11 @@
 #include "TriFile.h"
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX1)
-#define SAFE_RELEASE(p)            { if (p) { (p)->Release();    (p)=NULL; } }
+#define SAFE_RELEASE(p)            { if (p) { (p)->Release();    (p)=nullptr; } }
 
 class CDXMessageLoop : public CMessageLoop {
 	
-	BOOL OnIdle(int nIdleCount) {
+	BOOL OnIdle(int nIdleCount) override {
 		return !CMessageLoop::OnIdle(nIdleCount);
 	}
 	
@@ -18,30 +18,30 @@ class CDXMessageLoop : public CMessageLoop {
 class C3d : public CWindowImpl<C3d>
 {
 public:
-	D3DPRESENT_PARAMETERS d3dpp;
+	D3DPRESENT_PARAMETERS d3dpp{};
 	//IDirect3DSwapChain9* mSwapChain; 
 	//IDirect3DSurface9* mDepthStencil; 
-	LPDIRECT3D9						g_pD3D;
-	LPDIRECT3DDEVICE9				g_pd3dDevice;
-	LPDIRECT3DVERTEXBUFFER9			g_pVB ;
-	vector<LPDIRECT3DINDEXBUFFER9>	g_pIB;
-	vector<LPDIRECT3DTEXTURE9>		g_pTexture;
+	LPDIRECT3D9						g_pD3D = nullptr;
+	LPDIRECT3DDEVICE9				g_pd3dDevice = nullptr;
+	LPDIRECT3DVERTEXBUFFER9			g_pVB = nullptr;
+	std::vector<LPDIRECT3DINDEXBUFFER9>	g_pIB;
+	std::vector<LPDIRECT3DTEXTURE9>		g_pTexture;
 	ArcBall m_abArcBall;
-	float distance;
-	float alight;
-	UINT_PTR time;
-	DWORD vcount;
+	float distance = 0.0f;
+	float alight = 0.0f;
+	UINT_PTR time = 0;
+	DWORD vcount = 0;
 	std::vector<DWORD> fcount;
-	bool loaded;
-	int m_lMousex;
-	int m_lMousey;
-	int drawSurface[10];
-	bool rotation;
-	D3DXVECTOR3 vCenter;
-	D3DXMATRIXA16 matWorld;
-	D3DLIGHT9 light;
-	FLOAT vRadius;
-	FLOAT Aspect;
+	bool loaded = false;
+	int m_lMousex = 0;
+	int m_lMousey = 0;
+	int drawSurface[10]{};
+	bool rotation = false;
+	D3DXVECTOR3 vCenter{};
+	D3DXMATRIXA16 matWorld{};
+	D3DLIGHT9 light{};
+	FLOAT vRadius = 0.0f;
+	FLOAT Aspect = 0.0f;
 	BEGIN_MSG_MAP(C3d)
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
 		MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
@@ -65,9 +65,9 @@ public:
 	LRESULT OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	void ClearTextures();
 	void ClearIndexes();
-	void TextureChange(const SharedCache &sc,const vector<int> &textures);
+	void TextureChange(const SharedCache &sc, const std::vector<int> &textures);
 	void Open(const TriFile &tfile);
-	C3d();
+	C3d() = default;
 	void SwapTexture(int x, int y);
 	void InitD3D();
 	void Cleanup();
