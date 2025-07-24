@@ -13,7 +13,6 @@
 #include <Mmsystem.h>
 #include <tchar.h>
 
-
 #include <atlstr.h>
 #include <atlbase.h>
 #include <atlapp.h>
@@ -33,14 +32,16 @@ extern CAppModule _Module;
 #include <map>
 #include <algorithm>
 #include <functional>
-#include <cctype> 
+#include <cctype>
+#include <cstdint>
+#include <memory>
+#include <string>
 
-
-using namespace std;
-typedef unsigned char  byte;
-typedef unsigned short word;
-typedef unsigned long  dword;
-typedef unsigned long long  qword;
+// Modern C++ typedefs using standard types
+using byte = std::uint8_t;
+using word = std::uint16_t;
+using dword = std::uint32_t;
+using qword = std::uint64_t;
 
 
 #if defined _M_IX86
