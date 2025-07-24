@@ -10,14 +10,13 @@ LRESULT CMainDlg::OnTreeDblClick(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& bHandle
 	CTreeItem ti = m_Tree.GetSelectedItem();
 	if(ti)
 	{
-		int out = ti.GetData()-1;
-		if(out>=0)
+		const int out = ti.GetData()-1;
+		if(out >= 0)
 		{
-			CString f = sc.index[out].filename.c_str();
+			const CString f = sc.index[out].filename.c_str();
 			if(!f.Right(4).Compare(".tri"))
 			{
-				delete file;
-				file = new TriFile();
+				file.reset(new TriFile());
 				Load(out);
 			}
 			else if(!f.Right(4).Compare(".dds"))
@@ -30,12 +29,11 @@ LRESULT CMainDlg::OnTreeDblClick(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& bHandle
 			}
 			else if(!f.Right(4).Compare(".gr2"))
 			{
-				delete file;
-				file = new GrannyTriFile();
+				file.reset(new GrannyTriFile());
 				Load(out);
 			}
 			else
-				MessageBox("WTF?", "Error", MB_ICONERROR | MB_OK);
+				MessageBox("Unknown file type", "Error", MB_ICONERROR | MB_OK);
 		}
 	}
 	else
@@ -45,7 +43,7 @@ LRESULT CMainDlg::OnTreeDblClick(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& bHandle
 }
 
 
-void CMainDlg::Load(string &out)
+void CMainDlg::Load(std::string &out)
 {
 
 	CString SurType;
@@ -65,7 +63,7 @@ void CMainDlg::Load(string &out)
 	texdata.clear();
 	textures.resize(file->header.numSurfaces);
 	texdata.resize(file->header.numSurfaces);
-	for(dword i = 0; i < file->header.numSurfaces; i++)
+	for(dword i = 0; i < file->header.numSurfaces; ++i)
 		texdata[i] = -1;
 	CString VSize;
 	CString TriVersion;
@@ -109,7 +107,7 @@ void CMainDlg::Load(int out)
 	texdata.clear();
 	textures.resize(file->header.numSurfaces);
 	texdata.resize(file->header.numSurfaces);
-	for(dword i = 0; i < file->header.numSurfaces; i++)
+	for(dword i = 0; i < file->header.numSurfaces; ++i)
 		texdata[i] = -1;
 	CString VSize;
 	CString TriVersion;
@@ -125,7 +123,7 @@ void CMainDlg::Load(int out)
 	SurCount.Format("%i", file->header.numSurfaces);
 
 	// Loop through Checkboxes
-	for(dword i=0; i<10; i++)
+	for(dword i = 0; i < 10; ++i)
 	{
 		// Get current Checkbox
 		CButton currButton = m_ChkSurfaces[i];

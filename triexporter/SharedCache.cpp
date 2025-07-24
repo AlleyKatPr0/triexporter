@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "SharedCache.h"
 
-bool SharedCache::LoadDir(string eveDir)
+bool SharedCache::LoadDir(const std::string& eveDir)
 {
 	bool loadedDir = false;
 	bool loadedIndex = false;
-	string cacheDir;
+	std::string cacheDir;
 
 	CRegKey rk;
 	LONG lRet = rk.Open(HKEY_CURRENT_USER, "SOFTWARE\\CCP\\EVEONLINE");
@@ -22,17 +22,17 @@ bool SharedCache::LoadDir(string eveDir)
 
 	if (loadedDir)
 	{
-		ifstream in(eveDir + "\\resfileindex.txt");
+		std::ifstream in(eveDir + "\\resfileindex.txt");
 		if (in.good())
 		{
-			string line;
+			std::string line;
 			CacheEntry file;
 			char filename[255], cachename[255];
 			int filesize = 0;
 			while (!in.eof())
 			{
-				getline(in, line, '\n');
-				sscanf(line.c_str(), "%255[^','],%255[^','],%*[^','],%d", filename, cachename, &filesize);
+				std::getline(in, line, '\n');
+				sscanf_s(line.c_str(), "%254[^','],%254[^','],%*[^','],%d", filename, (unsigned)_countof(filename), cachename, (unsigned)_countof(cachename), &filesize);
 				
 				file = CacheEntry();
 				file.filename = filename;

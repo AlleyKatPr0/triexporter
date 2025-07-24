@@ -37,13 +37,13 @@ private:
 	CButton m_Remove;
 	CButton m_Select;
 	CButton m_ChkSurfaces[10];
-	TriFile* file;
+	std::unique_ptr<TriFile> file;
 	SharedCache sc;
 	CImageList il;
 	CTreeViewCtrlEx m_Tree;
-	map<string, HTREEITEM> lvis;
-	vector<string> textures;
-	vector<int> texdata;
+	std::map<std::string, HTREEITEM> lvis;
+	std::vector<std::string> textures;
+	std::vector<int> texdata;
 	bool loaded;
 public:
 	BEGIN_MSG_MAP(CMainDlg)

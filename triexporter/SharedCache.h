@@ -1,18 +1,22 @@
 #pragma once
 
+#include <string>
+#include <vector>
+#include <fstream>
+
 struct CacheEntry
 {
 	dword fileSize;
-	string filename;
-	string cachename;
+	std::string filename;
+	std::string cachename;
 };
 
 class SharedCache
 {
 	public:
-		bool LoadDir(string eveDir);
-		void SaveFile(CacheEntry file, CString path, bool folder = false);
+		bool LoadDir(const std::string& eveDir);
+		void SaveFile(const CacheEntry& file, const CString& path, bool folder = false);
 
-		vector<CacheEntry> index;
-		vector<ifstream*> handles;
+		std::vector<CacheEntry> index;
+		std::vector<std::unique_ptr<std::ifstream>> handles;
 };
