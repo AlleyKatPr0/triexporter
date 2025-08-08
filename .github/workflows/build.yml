@@ -1,0 +1,20 @@
+---
+name: Build
+
+"on":
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: microsoft/setup-msbuild@v1
+        with:
+          vs-version: '17.0'
+      - name: Build solution
+        run: msbuild TriExporter.sln /p:Configuration=Release
+        # No tests currently present; add test invocation when tests exist.
