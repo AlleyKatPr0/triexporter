@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "3d.h"
 #include "d3dhelper.h"
+#include "wic_texture_loader.h"
 
 
 LRESULT C3d::OnDblClick(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
@@ -72,7 +73,7 @@ void C3d::TextureChange(const SharedCache &sc,const vector<int> &textures)
 			is.read(reinterpret_cast<char*>(&data[0]), sc.index[index].fileSize);
 			is.close();			
 			LPDIRECT3DTEXTURE9 tmp;
-			if(LoadTextureFromMemory(g_pd3dDevice, &data[0], &tmp))
+			if(LoadTextureFromMemoryWIC(g_pd3dDevice, &data[0], data.size(), &tmp))
 				g_pTexture[i] = tmp;
 		}	
 	}

@@ -68,7 +68,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);..\ddraw\x86;$(DXSDKPath)\Lib\x86;$(FBXSDKPath)\lib\vs2010\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>zlib.lib;libpng.lib;DevIL.lib;ilu.lib;lib3ds.lib;d3d9.lib;Winmm.lib;fbxsdk-2013.3-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;libpng.lib;DevIL.lib;ilu.lib;lib3ds.lib;d3d9.lib;Winmm.lib;fbxsdk-2013.3-mtd.lib;windowscodecs.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,7 +90,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);..\ddraw\x86;$(DXSDKPath)\Lib\x86;$(FBXSDKPath)\lib\vs2010\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>zlib.lib;libpng.lib;DevIL.lib;ilu.lib;lib3ds.lib;d3d9.lib;Winmm.lib;fbxsdk-2013.3-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zlib.lib;libpng.lib;DevIL.lib;ilu.lib;lib3ds.lib;d3d9.lib;Winmm.lib;fbxsdk-2013.3-mt.lib;windowscodecs.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkStatus>true</LinkStatus>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
@@ -118,6 +118,7 @@
     <ClInclude Include="TriExporter.h" />
     <ClInclude Include="TriFile.h" />
     <ClInclude Include="UnstuffDlg.h" />
+    <ClInclude Include="wic_texture_loader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3d.cpp" />
@@ -131,6 +132,7 @@
     </ClCompile>
     <ClCompile Include="TriExporter.cpp" />
     <ClCompile Include="TriFile.cpp" />
+    <ClCompile Include="wic_texture_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TriExporter.rc" />

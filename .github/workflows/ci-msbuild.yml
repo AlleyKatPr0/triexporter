@@ -1,0 +1,48 @@
+name: CI - MSBuild
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.3
+      with:
+        msbuild-architecture: x86
+
+    - name: Setup DirectX SDK
+      shell: powershell
+      run: |
+        # Download and install DirectX SDK June 2010
+        $url = "https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe"
+        $output = "$env:TEMP\DXSDK_Jun10.exe"
+        Write-Host "Downloading DirectX SDK..."
+        Invoke-WebRequest -Uri $url -OutFile $output
+        Write-Host "Installing DirectX SDK..."
+        Start-Process -FilePath $output -ArgumentList "/S" -Wait -NoNewWindow
+        Write-Host "DirectX SDK installation completed"
+
+    - name: Setup environment variables
+      shell: powershell
+      run: |
+        echo "DXSDK_DIR=C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\" >> $env:GITHUB_ENV
+
+    - name: Build solution
+      run: msbuild TriExporter.sln /p:Configuration=Release /p:Platform=Win32 /p:DXSDKPath="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)"
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: triexporter-msbuild
+        path: |
+          Release/TriExporter.exe
+          Release/*.lib
