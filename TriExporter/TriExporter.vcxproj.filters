@@ -66,6 +66,9 @@
     <ClInclude Include="UnstuffDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="wic_texture_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SharedCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wic_texture_loader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
