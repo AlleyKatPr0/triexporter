@@ -1,0 +1,11 @@
+Checks: >
+  modernize-*
+  ,-modernize-avoid-c-arrays
+  ,-modernize-use-trailing-return-type
+  readability-*
+  performance-*
+  bugprone-*
+  portability-*
+WarningsAsErrors: '*'
+HeaderFilterRegex: '^(src|include)/'
+FormatStyle:     file

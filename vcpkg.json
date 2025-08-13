@@ -1,0 +1,14 @@
+{
+  "name": "triexporter",
+  "version-string": "0.1.0",
+  "builtin-baseline": "latest",
+  "dependencies": [
+    "assimp",
+    "libpng",
+    "zlib",
+    "wtl",
+    "stb",
+    "fmt",
+    "spdlog"
+  ]
+}

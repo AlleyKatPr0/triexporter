@@ -1,0 +1,16 @@
+name: CI (MSBuild solution)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  msbuild:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Build TriExporter.sln (Release|Win32)
+        run: msbuild TriExporter.sln /m /p:Configuration=Release /p:Platform=Win32
